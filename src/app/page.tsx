@@ -33,14 +33,3 @@ const Home:React.FC = () => {
 }
 
 export default Home;
-
-
-/*
-export default function Home() {
-  return (
-    <main className="flex h-screen w-screen flex-row flex-wrap items-strech justify-center p-20">
-      <CalculateSalary/>
-      <SummarySalary/>
-    </main>
-  );
-}*/

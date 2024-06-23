@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { eventNames } from 'process';
 
 interface EarningsItems {
     id: number;
@@ -8,7 +7,6 @@ interface EarningsItems {
     item: string;
     amount: string;
   }
-
 
 interface EarningsProps{
     Title: string;
@@ -22,7 +20,6 @@ interface EarningsProps{
 }
 
 const Earnings:React.FC<EarningsProps> = ({Title, SubTitle, ButtonName, handleOpenAddWindow, handleDeleteItem, list, handleUpdateOpenWindow, setList}) => {
-
   return (
     <div className='flex flex-col items-start justify-start max-h-[36%]'>
       <h2 className='mb-1 font-semibold text-gray-700 mt-3'>{Title}</h2>
@@ -30,9 +27,9 @@ const Earnings:React.FC<EarningsProps> = ({Title, SubTitle, ButtonName, handleOp
       <div className="mt-[10px] overflow-auto bg-transparent max-h-[35%]">
         <table>
             <tbody className=' overflow-auto'>
-                {list.map((item, index) => (
+                {list.map((item) => (
                     <tr className='flex flex-row my-1 items-center'>
-                        <td className='flex flex-row flex-nowrap' key={index}>
+                        <td className='flex flex-row flex-nowrap' key={item.id}>
                             <p className='text-[12px] font-medium'>{item.item}: </p>
                             <p className='text-[12px] font-medium pl-[5px]'>{parseFloat(item.amount).toFixed(2)}</p>
                         </td>

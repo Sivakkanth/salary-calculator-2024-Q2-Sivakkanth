@@ -33,6 +33,10 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
   const [updateWindow, setUpdateWindow] = useState(false);
   const [type, setType] = useState<'earning' | 'deduction'>('earning');
   const [currentItemId, setCurrentItemId] = useState<number | null>(null);
+  const [earningList, setEarningList] = useState<any[]>([])
+  const [deductionList, setDeductionList] = useState<any[]>([])
+  
+  // Functions
   const handleReset = () => {
     setBasic('0.00');
     setEarningList([]);
@@ -41,23 +45,18 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
     setEPFEarnings('0.00');
     setDeductions('0.00');
   }
-  const [earningList, setEarningList] = useState<any[]>([])
-  const [deductionList, setDeductionList] = useState<any[]>([])
 
-  const handleDelete = (id:number) => {
+  const handleDelete = (id:number, type: 'earning' | 'deduction') => {
     if (type === 'earning') {
-      const listItem = earningList.filter((item) => 
-      item.id!==id);
-      setEarningList(listItem)
-      localStorage.setItem("Earning_List", JSON.stringify(listItem))
+      const listItem = earningList.filter((item) => item.id !== id);
+      setEarningList(listItem);
+      localStorage.setItem("Earning_List", JSON.stringify(listItem));
+    } else {
+      const listItem = deductionList.filter((item) => item.id !== id);
+      setDeductionList(listItem);
+      localStorage.setItem("Deduction_List", JSON.stringify(listItem));
     }
-    else{
-      const listItem = deductionList.filter((item) => 
-      item.id!==id);
-      setDeductionList(listItem)
-      localStorage.setItem("Earning_List", JSON.stringify(listItem))
-    }
-      }
+  };
 
   const handleAddItem = (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,7 +110,8 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
     }
   };
 
-  const handleOpenUpdateWindow = (id:number) => {
+  const handleOpenUpdateWindow = (id:number, type: 'earning' | 'deduction') => {
+    setType(type); // Set the type when opening the update window
     setCurrentItemId(id);
     const list = type === 'earning' ? earningList : deductionList;
     const currentItem = list.find((item) => item.id === id);
@@ -122,14 +122,13 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
       setCheck(currentItem.checked);
     }
   };
-
-  // Helper function to calculate the sum of earning amounts
+  
+  // Calculations
   const calculateEarnings = (earningList: any[]) => {
     const total = earningList.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0); // Ensure item.amount is a number
     setEarnings(total.toFixed(2));
   }
 
-  // Helper function to calculate the sum of earning amounts
   const calculateDeductions = (deductionList: any[]) => {
     const total = deductionList.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0); // Ensure item.amount is a number
     setDeductions(total.toFixed(2));
@@ -140,7 +139,6 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
     setEPFEarnings(total.toFixed(2)); // Update EPF earnings state with formatted total
   }
 
-  // useEffect to recalculate earnings whenever earningList changes
   useEffect(() => {
     calculateEarnings(earningList);
     calculateEPFEarnings(earningList);
@@ -151,7 +149,7 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
   }, [deductionList]);
 
   return (
-    <div className="bg-[#FAFAFA] flex flex-col p-5 mx-0 lg:mx-10 rounded-[10px] border-[1px] border-[#E0E0E0] w-full lg:w-[50%] h-auto lg:h-[100%] my-3">
+    <div className="bg-[#FAFAFA] flex flex-col p-5 mr-0 lg:mr-10 rounded-[10px] border-[1px] border-[#E0E0E0] w-full lg:w-[50%] h-auto lg:h-[100%] my-3">
       <div className="flex flex-row flex-nowrap items-center justify-between mb-4">
         <h3 className="text-lg font-semibold">Calculate Your Salary</h3>
         <div className="flex items-center space-x-2 cursor-pointer p-1 rounded-[5px] hover:bg-[#E0E0E0]"  onClick={handleReset}>
@@ -167,9 +165,9 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
       <Earnings
        list={earningList}
        setList={setEarningList}
-       handleDeleteItem={handleDelete} 
+       handleDeleteItem={(id) => handleDelete(id, 'earning')} 
        handleOpenAddWindow={()=>{setWindow(true); setType('earning');}}
-       handleUpdateOpenWindow={handleOpenUpdateWindow} 
+       handleUpdateOpenWindow={(id) => handleOpenUpdateWindow(id, 'earning')}  
        Title={"Earnings"} 
        SubTitle={"Allowance, Fixed Allowance, Bonus and etc."} 
        ButtonName='+ Add New Allowance'
@@ -178,9 +176,9 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
       <Earnings
        list={deductionList}
        setList={setDeductionList}
-       handleDeleteItem={handleDelete} 
+       handleDeleteItem={(id) => handleDelete(id, 'deduction')} 
        handleOpenAddWindow={()=>{ setWindow(true); setType('deduction'); }}
-       handleUpdateOpenWindow={handleOpenUpdateWindow}  
+       handleUpdateOpenWindow={(id) => handleOpenUpdateWindow(id, 'deduction')} 
        Title={"Deductions"} 
        SubTitle={"Salary Advances, Loan Deductions and all"} 
        ButtonName='+ Add New Deduction'
@@ -219,7 +217,7 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
       <div className='fixed bg-opacity-50 w-screen h-screen bg-[#000000] z-10 m-0 p-0 inset-0 flex flex-row items-center justify-center'>
         <form onSubmit={handleUpdateItem} className='absolute flex flex-col rounded-[5px] items-center justify-center w-[50%] bg-[#FFFFFF]'>
           <div className='flex flex-row items-center justify-between flex-nowrap border-b-[3px] w-full px-3 md:px-5 py-3'>
-            <h2 className='font-semibold'>{type === 'earning' ? 'Add New Earnings' : 'Add New Deductions'}</h2>
+            <h2 className='font-semibold'>{type === 'earning' ? 'Update Earnings Item' : 'Updaete Deduction Item'}</h2>
             <Image onClick={()=>setUpdateWindow(false)} className='cursor-pointer hover:bg-[#E0E0E0] p-1 rounded-full' src="/delete.png" width={20} height={20} alt='close'/>
           </div>
           <div className='flex flex-col items-center justify-center w-full px-3 md:px-5'>

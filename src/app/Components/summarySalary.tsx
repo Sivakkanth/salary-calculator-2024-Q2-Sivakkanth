@@ -8,17 +8,17 @@ interface SummarySalaryProps {
     deductions: string;
   }
 
-const SummarySalary: React.FC<SummarySalaryProps> = ({ 
-    basic, earnings, ePFEarnings, deductions 
-  }) => {
+const SummarySalary: React.FC<SummarySalaryProps> = ({basic, earnings, ePFEarnings, deductions}) => {
 
+  // Equations
   const grossEarning = parseFloat(basic) + parseFloat(earnings) - parseFloat(deductions);
   const total_Earning_EPF = parseFloat(basic) + parseFloat(ePFEarnings);
   const gross_Salary_EPF = total_Earning_EPF + parseFloat(deductions);
   const employee_EPF = gross_Salary_EPF * 0.08;
   const employer_EPF = gross_Salary_EPF * 0.12;
   const employer_ETF = gross_Salary_EPF * 0.03;
-  const APIT = (grossEarning*0.18)-25500;
+  let APIT = (grossEarning*0.18)-25500;
+  if (parseFloat(basic) <= 0) APIT = 0; // Initial to APIT = 0, when basic>=0
   const netSalary = grossEarning - parseFloat(ePFEarnings) - APIT;
   const CTC = grossEarning + employer_EPF;
 
