@@ -28,7 +28,7 @@ const Earnings:React.FC<EarningsProps> = ({Title, SubTitle, ButtonName, handleOp
         <table>
             <tbody className=' overflow-auto'>
                 {list.map((item) => (
-                    <tr className='flex flex-row my-1 items-center'>
+                    <tr key={item.id} className='flex flex-row my-1 items-center'>
                         <td className='flex flex-row flex-nowrap' key={item.id}>
                             <p className='text-[12px] font-medium'>{item.item}: </p>
                             <p className='text-[12px] font-medium pl-[5px]'>{parseFloat(item.amount).toFixed(2)}</p>
