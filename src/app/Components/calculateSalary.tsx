@@ -188,11 +188,11 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
       {window && (
       <div className='fixed bg-opacity-50 w-screen h-screen bg-[#000000] z-10 m-0 p-0 inset-0 flex flex-row items-center justify-center'>
         <form onSubmit={handleAddItem} className='absolute flex flex-col rounded-[5px] items-center justify-center w-[50%] bg-[#FFFFFF]'>
-          <div className='flex flex-row items-center justify-between flex-nowrap border-b-[3px] w-full px-5 py-3'>
+          <div className='flex flex-row items-center justify-between flex-nowrap border-b-[3px] w-full px-3 md:px-5 py-3'>
             <h2 className='font-semibold'>{type === 'earning' ? 'Add New Earnings' : 'Add New Deductions'}</h2>
             <Image onClick={()=>setWindow(false)} className='cursor-pointer hover:bg-[#E0E0E0] p-1 rounded-full' src="/delete.png" width={20} height={20} alt='close'/>
           </div>
-          <div className='flex flex-col items-center justify-center w-full px-5'>
+          <div className='flex flex-col items-center justify-center w-full px-3 md:px-5'>
             <div className="flex flex-col mb-4 w-full">
               <label className="my-2 text-blue-600 font-semibold">{type === 'earning' ? 'Earnings Items' : 'Deductions Items'}</label>
               <input type='text' placeholder='Eg: Travel' onChange={(e)=>setItem(e.target.value)} required
@@ -209,20 +209,20 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
               <label className="ml-3 my-2 text-[15px] font-medium text-gray-700">EPF/ETF</label>
             </div>
           </div>
-          <div className='flex flex-row flex-nowrap w-full items-center justify-end px-5 py-3 border-t-[3px]'>
+          <div className='flex flex-row flex-nowrap w-full items-center justify-end  px-3 md:px-5 py-3 border-t-[3px]'>
             <div className='text-blue-700 font-medium text-[15px] mx-3 cursor-pointer hover:font-semibold' onClick={()=>setWindow(false)}>Cancel</div>
             <button type='submit' className='bg-blue-700 text-gray-100 px-4 py-2 rounded-[5px] font-medium text-[15px] mx-3 cursor-pointer hover:font-bold'>Add</button>
           </div>
           </form>
       </div>)}
       {updateWindow && (
-      <div className='fixed opacity-100 w-screen h-screen bg-[#000000] z-10 m-0 p-0 inset-0 flex flex-row items-center justify-center'>
+      <div className='fixed bg-opacity-50 w-screen h-screen bg-[#000000] z-10 m-0 p-0 inset-0 flex flex-row items-center justify-center'>
         <form onSubmit={handleUpdateItem} className='absolute flex flex-col rounded-[5px] items-center justify-center w-[50%] bg-[#FFFFFF]'>
-          <div className='flex flex-row items-center justify-between flex-nowrap border-b-[3px] w-full px-5 py-3'>
+          <div className='flex flex-row items-center justify-between flex-nowrap border-b-[3px] w-full px-3 md:px-5 py-3'>
             <h2 className='font-semibold'>{type === 'earning' ? 'Add New Earnings' : 'Add New Deductions'}</h2>
             <Image onClick={()=>setUpdateWindow(false)} className='cursor-pointer hover:bg-[#E0E0E0] p-1 rounded-full' src="/delete.png" width={20} height={20} alt='close'/>
           </div>
-          <div className='flex flex-col items-center justify-center w-full px-5'>
+          <div className='flex flex-col items-center justify-center w-full px-3 md:px-5'>
             <div className="flex flex-col mb-4 w-full">
               <label className="my-2 text-blue-600 font-semibold">{type === 'earning' ? 'Earnings Items' : 'Deductions Items'}</label>
               <input type='text' placeholder='Eg: Travel' onChange={(e)=>setItem(e.target.value)}
@@ -239,7 +239,7 @@ const CalculateSalary:React.FC<CalculateSalaryProps> = ({
               <label className="ml-3 my-2 text-[15px] font-medium text-gray-700">EPF/ETF</label>
             </div>
           </div>
-          <div className='flex flex-row flex-nowrap w-full items-center justify-end px-5 py-3 border-t-[3px]'>
+          <div className='flex flex-row flex-nowrap w-full items-center justify-end px-3 md:px-5 py-3 border-t-[3px]'>
             <div className='text-blue-700 font-medium text-[15px] mx-3 cursor-pointer hover:font-semibold' onClick={()=>setUpdateWindow(false)}>Cancel</div>
             <button type='submit' className='bg-blue-700 text-gray-100 px-4 py-2 rounded-[5px] font-medium text-[15px] mx-3 cursor-pointer hover:font-bold'>Add</button>
           </div>
